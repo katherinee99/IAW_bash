@@ -1,17 +1,26 @@
 #!/bin/bash 
 #Crear usuario
+clear
 
-read -p 'Nombre de usuario: ' nombre
-nombreunico=$nombre$RANDOM
-echo "Nombre de usuario $nombreunico"
-psw1=$(date +%s | sha256sum | base64 | head -c 4)
-psw2=$(date +%s | sha256sum | base32 | head -c 4)  
-pswd="$psw1""$psw2""$RANDOM"
+	CREAR=Crear 
+	MODIF=Modificar
+	BORRAR=Borrar
 
-echo "Contraseña auto generada ${pswd:0:1}*******${pswd:12:15}"
-echo $pswd
-adduser
-mkdir /var/www/$nombreunico/{web,blog,files}
-chown root:root /var/www/$nombreunico
-chown $nombreunico:$nombreunico /var/www/$nombreunico/*
-chmod -R 755 /var/www/
+	echo "1. Crear usuario"
+	echo "2. Modificar usuario"
+	echo "3. Listar usuarios"
+	echo "4. Borrar usuario"	
+	
+	read -p "Seleccione una opcion: " opcion
+	
+	if [ 1 -eq $opcion ]; then
+	    echo "Crear usuario"
+	elif [ 2 -eq $opcion ]; then
+	    echo "Modificar usuario"
+	elif [ 3 -eq $opcion ]; then
+	    echo "Listar usuario"
+	elif [ 4 -eq $opcion ]; then
+	    echo "Borrar usuario"
+	else 
+	    echo salir
+	fi
