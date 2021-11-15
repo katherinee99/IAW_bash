@@ -1,13 +1,17 @@
 #!/bin/bash 
-echo "hola mundo!"
-while true; do
-    read -p "Seleccione una opción de 1 a 5 ?" op
-    case $op in
-        [1]* ) echo "Opción Seleccionada 1 !"; break;;
-        [2]* ) echo "Opción Seleccionada 2 !"; break;;
-        [3]* ) echo "Opción Seleccionada 3 !"; break;;
-        [4]* ) echo "Opción Seleccionada 4 !"; break;;
-        [5]* ) echo "Opción Seleccionada 5 !"; break;;        
-        * ) echo "Seleccione una Opción de 1 a 5.";;
-    esac
-done
+#Crear usuario
+
+read -p 'Nombre de usuario: ' nombre
+nombreunico=$nombre$RANDOM
+echo "Nombre de usuario $nombreunico"
+psw1=$(date +%s | sha256sum | base64 | head -c 4)
+psw2=$(date +%s | sha256sum | base32 | head -c 4)  
+pswd="$psw1""$psw2""$RANDOM"
+
+echo "Contraseña auto generada ${pswd:0:1}*******${pswd:12:15}"
+echo $pswd
+adduser
+mkdir /var/www/$nombreunico/{web,blog,files}
+chown root:root /var/www/$nombreunico
+chown $nombreunico:$nombreunico /var/www/$nombreunico/*
+chmod -R 755 /var/www/
